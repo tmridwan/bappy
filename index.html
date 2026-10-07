@@ -159,9 +159,9 @@ table.sheet{min-width:680px;border:2px solid #000}
      </div>
     </div>
     <div class="stats">
-     <div class="stat"><small>CGPA</small><div>3.14</div></div>
-     <div class="stat"><small>Credits earned</small><div id="s-cr">87</div></div>
-     <div class="stat"><small>Semesters completed</small><div id="s-sem">9</div></div>
+     <div class="stat"><small>CGPA</small><div id="s-cgpa"></div></div>
+     <div class="stat"><small>Credits earned</small><div id="s-cr"></div></div>
+     <div class="stat"><small>Semesters completed</small><div id="s-sem"></div></div>
     </div>
     <button class="btn" style="max-width:240px;margin:0" data-view="grades">View grade report</button>
    </div>
@@ -191,10 +191,15 @@ table.sheet{min-width:680px;border:2px solid #000}
 var PTS={"A+":4,"A":3.75,"A-":3.5,"B+":3.25,"B":3,"B-":2.75,"C+":2.5,"C":2.25,"D":2,"F":0};
 // Sample data: replace with real results from your backend
 var DATA=[
- {sem:"Spring 2023",c:[["SWE111","Introduction to Software Engineering",3,"A"],["CSE112","Computer Fundamentals",3,"A+"],["MAT111","Calculus I",3,"B+"],["ENG113","English Language I",3,"A-"],["PHY113","Physics I",3,"B"]]},
- {sem:"Summer 2023",c:[["CSE121","Structured Programming",3,"A+"],["MAT121","Calculus II",3,"B"],["ENG123","English Language II",3,"A"],["PHY123","Physics II",3,"B+"]]},
- {sem:"Fall 2023",c:[["CSE131","Object Oriented Programming",3,"A"],["CSE133","Discrete Mathematics",3,"B+"],["SWE132","Software Requirements",3,"A-"],["STA131","Statistics",3,"B-"],["CSE134","Digital Logic Design",3,"A"]]},
- {sem:"Spring 2024",c:[["CSE211","Data Structures",3,"A"],["CSE213","Database Systems",3,"A-"],["SWE212","Software Design Patterns",3,"A+"],["MAT211","Linear Algebra",3,"C+"],["CSE214","Algorithms",3,"B+"]]}
+ {sem:"Spring 2023",c:[["SWE111","Introduction to Software Engineering",3,"B+"],["CSE112","Computer Fundamentals",3,"B"],["MAT111","Calculus I",3,"B"],["ENG113","English Language I",3,"A+"],["PHY113","Physics I",3,"B-"]]},
+ {sem:"Summer 2023",c:[["CSE121","Structured Programming",3,"A"],["MAT121","Calculus II",3,"C+"],["ENG123","English Language II",3,"B"],["PHY123","Physics II",3,"B-"]]},
+ {sem:"Fall 2023",c:[["CSE131","Object Oriented Programming",3,"B"],["CSE133","Discrete Mathematics",3,"C+"],["SWE132","Software Requirements",3,"B"],["STA131","Statistics",3,"C+"],["CSE134","Digital Logic Design",3,"B-"]]},
+ {sem:"Spring 2024",c:[["CSE211","Data Structures",3,"A"],["CSE213","Database Systems",3,"B-"],["SWE212","Software Design Patterns",3,"B"],["MAT211","Linear Algebra",3,"A+"],["CSE214","Algorithms",3,"A"]]},
+ {sem:"Summer 2024",c:[["CSE221","Web Development",3,"A"],["CSE222","Database Design",3,"B-"],["SWE221","Project Management",3,"C+"],["CSE223","Systems Design",3,"B"]]},
+ {sem:"Fall 2024",c:[["CSE231","Mobile Apps",3,"A"],["CSE232","Cloud Computing",3,"C+"],["SWE231","Software Testing",3,"B-"],["CSE233","AI Basics",3,"C+"],["CSE234","Networks",3,"B"]]},
+ {sem:"Spring 2025",c:[["CSE241","Security",3,"A"],["CSE242","DevOps",3,"C+"],["SWE241","Agile Methods",3,"A+"],["CSE243","Microservices",3,"B"]]},
+ {sem:"Summer 2025",c:[["CSE251","Big Data",3,"B"],["CSE252","Machine Learning",3,"A+"],["SWE251","Documentation",3,"B-"]]},
+ {sem:"Fall 2025",c:[["CSE261","Capstone",3,"B"],["CSE262","Ethics",3,"A+"],["SWE261","Final Project",3,"A"]]}
 ];
 var $=function(i){return document.getElementById(i)};
 function gp(sub){var c=0,p=0;sub.forEach(function(x){c+=x[2];p+=x[2]*PTS[x[3]]});return c?p/c:0}
@@ -242,8 +247,7 @@ var SHEET=[
  ["B-46","13",[[3,"SE 213","Digital Electronics & Logic Design","A-"],[3,"SE 123","Discrete Mathematics","B+"],[3,"MAT 134/ MAT 102","Math-II: Linear Algebra & Fourier Analysis/ Mathematics II","B"],[3,"SE 131","Data Structure","A"],[1,"SE 132","Data Structure Lab","A+"]]],
  ["B-45","13",[[3,"SE 133","Software Development Capstone Project","A"],[3,"SE223","Database Systems","A-"],[1,"SE224","Database Systems Lab","A+"],[3,"SE 222","Computer Architecture","B+"],[3,"GE 115/ AOL 101","Art of Living","A"]]],
  ["B-44","14",[[3,"GE235","Principles of Accounting, Business & Economics","B"],[3,"SE214","Algorithms Design & Analysis","B+"],[1,"SE215","Algorithms Design & Analysis Lab","A"],[3,"SE 216","Object Oriented Programming","A"],[1,"SE 217","Object Oriented Programming Lab","A+"],[3,"SE 411","Software Project Management & Documentation","A-"]]],
- ["B-43","14",[[3,"SE 235","Desktop & Web Programming","A"],[1,"SE 236","Desktop & Web Programming Lab","A+"],[3,"SE232","Operating System & System Programming","B+"],[1,"SE233","Operating System & System Programming Lab","A"],[3,"SE 231","System Analysis & Design Capstone Project","A-"]]],
- ["B-42","14",[[3,"SE 234","Theory of Computing","A"],[3,"SE 312","Software Quality Assurance & Testing","A+"],[1,"SE 313","Software Quality Assurance & Testing Lab","A"],[3,"SE 532","Introduction to Robotics","B+"],[3,"SE 321","Software Engineering Web Application","A"],[1,"SE 322","Software Engineering Web Application Lab","A+"],[3,"SE 323","Software Architecture & Design","A-"]]]
+ ["B-43","14",[[3,"SE 235","Desktop & Web Programming","A"],[1,"SE 236","Desktop & Web Programming Lab","A+"],[3,"SE232","Operating System & System Programming","B+"],[1,"SE233","Operating System & System Programming Lab","A"],[3,"SE 231","System Analysis & Design Capstone Project","A-"]]]
 ];
 $("rows").innerHTML=SHEET.map(function(b){
  return b[2].map(function(c,i){
