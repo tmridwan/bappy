@@ -242,12 +242,56 @@ $("s-sem").textContent=DATA.length;
 
 // grades (copy of course sheet)
 var SHEET=[
- ["B-48","13",[[3,"SE 111","Computer Fundamentals","A"],[1,"SE 112","Computer Fundamentals Lab","A+"],[3,"SE 113","Introduction to Software Engineering","A-"],[3,"ENG 114/ ENG 101","English Reading, Writing Skills & Public Speaking/ English I","B+"],[3,"GE 314/ BNS 101","Bangladesh Studies","A"]]],
- ["B-47","13",[[3,"MAT 124/ MAT 101","Math-I: Calculus & Geometry/ Mathematics I","B+"],[3,"SE 121","Structured Programming","A+"],[1,"SE 122","Structured Programming Lab","A+"],[3,"PHY 125/ PHY 101","Physics: Mechanics, Electromagnetism & Waves/ Physics I","B"],[3,"SE 212","Software Requirement Specifications & Analysis","A"]]],
- ["B-46","13",[[3,"SE 213","Digital Electronics & Logic Design","A-"],[3,"SE 123","Discrete Mathematics","B+"],[3,"MAT 134/ MAT 102","Math-II: Linear Algebra & Fourier Analysis/ Mathematics II","B"],[3,"SE 131","Data Structure","A"],[1,"SE 132","Data Structure Lab","A+"]]],
- ["B-45","13",[[3,"SE 133","Software Development Capstone Project","A"],[3,"SE223","Database Systems","A-"],[1,"SE224","Database Systems Lab","A+"],[3,"SE 222","Computer Architecture","B+"],[3,"GE 115/ AOL 101","Art of Living","A"]]],
- ["B-44","14",[[3,"GE235","Principles of Accounting, Business & Economics","B"],[3,"SE214","Algorithms Design & Analysis","B+"],[1,"SE215","Algorithms Design & Analysis Lab","A"],[3,"SE 216","Object Oriented Programming","A"],[1,"SE 217","Object Oriented Programming Lab","A+"],[3,"SE 411","Software Project Management & Documentation","A-"]]],
- ["B-43","14",[[3,"SE 235","Desktop & Web Programming","A"],[1,"SE 236","Desktop & Web Programming Lab","A+"],[3,"SE232","Operating System & System Programming","B+"],[1,"SE233","Operating System & System Programming Lab","A"],[3,"SE 231","System Analysis & Design Capstone Project","A-"]]]
+
+ ["B-48","13",[
+   [3,"SE 111","Computer Fundamentals","A"],
+   [1,"SE 112","Computer Fundamentals Lab","A+"],
+   [3,"SE 113","Introduction to Software Engineering","A-"],
+   [3,"ENG 114/ ENG 101","English Reading, Writing Skills & Public Speaking/ English I","B+"],
+   [3,"GE 314/ BNS 101","Bangladesh Studies","A"]
+ ]],
+
+ ["B-47","13",[
+   [3,"MAT 124/ MAT 101","Math-I: Calculus & Geometry/ Mathematics I","B+"],
+   [3,"SE 121","Structured Programming","A+"],
+   [1,"SE 122","Structured Programming Lab","A+"],
+   [3,"PHY 125/ PHY 101","Physics: Mechanics, Electromagnetism & Waves/ Physics I","B"],
+   [3,"SE 212","Software Requirement Specifications & Analysis","A"]
+ ]],
+
+ ["B-46","13",[
+   [3,"SE 213","Digital Electronics & Logic Design","A-"],
+   [3,"SE 123","Discrete Mathematics","B+"],
+   [3,"MAT 134/ MAT 102","Math-II: Linear Algebra & Fourier Analysis/ Mathematics II","B"],
+   [3,"SE 131","Data Structure","A"],
+   [1,"SE 132","Data Structure Lab","A+"]
+ ]],
+
+ ["B-45","13",[
+   [3,"SE 133","Software Development Capstone Project","A"],
+   [3,"SE 223","Database Systems","A-"],
+   [1,"SE 224","Database Systems Lab","C+"],
+   [3,"SE 222","Computer Architecture","B+"],
+   [3,"GE 115/ AOL 101","Art of Living","A"]
+ ]],
+
+ ["B-44","14",[
+   [3,"GE 235","Principles of Accounting, Business & Economics","B"],
+   [3,"SE 214","Algorithms Design & Analysis","B+"],
+   [1,"SE 215","Algorithms Design & Analysis Lab","A"],
+   [3,"SE 216","Object Oriented Programming","A"],
+   [1,"SE 217","Object Oriented Programming Lab","A+"],
+   [3,"SE 411","Software Project Management & Documentation","A-"]
+ ]],
+
+ ["B-43","14",[
+   [3,"SE 235","Desktop & Web Programming","A"],
+   [1,"SE 236","Desktop & Web Programming Lab","A+"],
+   [3,"SE 232","Operating System & System Programming","B+"],
+   [1,"SE 233","Operating System & System Programming Lab","A"],
+   [3,"SE 231","System Analysis & Design Capstone Project","A-"]
+ ]]
+
 ];
 $("rows").innerHTML=SHEET.map(function(b){
  return b[2].map(function(c,i){
