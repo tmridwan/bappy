@@ -58,6 +58,21 @@ h2{margin:0 0 18px;font-size:22px}
 .bar{display:flex;gap:12px;flex-wrap:wrap;align-items:end;margin-bottom:16px}
 .bar>div{flex:1;min-width:180px;max-width:280px}
 .tw{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:8px}
+.avatar {
+  width: 140px;          /* adjust size if needed */
+  height: 160px;         /* or whatever height you want */
+  overflow: hidden;      /* this is the key */
+  border-radius: 12px;   /* match your card’s radius */
+  flex-shrink: 0;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;     /* crops the photo nicely instead of stretching */
+  object-position: top center;  /* keeps the face centered */
+  display: block;
+}
 table{width:100%;border-collapse:collapse;min-width:560px}
 th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line)}
 th{font-size:13px;color:var(--mute);font-weight:600}
@@ -68,6 +83,13 @@ tr:last-child td{border-bottom:0}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .g{background:#25401a;color:#bdf08a}:root:not([data-theme="light"]) .g.mid{background:#26307a;color:#c9d3ff}:root:not([data-theme="light"]) .g.low{background:#58360f;color:#ffd7a6}:root:not([data-theme="light"]) .g.f{background:#5c1c1c;color:#ffc4c4}}
 .tfoot{display:flex;gap:24px;flex-wrap:wrap;padding:14px;font-weight:600}
 .scale{margin-top:20px;font-size:13px;color:var(--mute)}
+.paper{background:#fff;color:#000;font-family:"Times New Roman",Times,serif;padding:24px 16px;border-radius:6px;overflow-x:auto;border:1px solid var(--line)}
+.ptitle{text-align:center;font-weight:700;font-size:15px;margin-bottom:12px;line-height:1.35}.ptitle span{font-size:18px}
+table.sheet{min-width:680px;border:2px solid #000}
+.sheet th,.sheet td{border:1px solid #000!important;text-align:center;padding:3px 8px;font-size:14px}
+.sheet th{background:#00e5ff;color:#000;font-weight:700}
+.sheet td.b{font-weight:400;line-height:1.2}
+.sheet td.nm{padding:3px 6px}
 @media(max-width:800px){
  aside{position:fixed;inset:0 auto 0 0;z-index:20;transform:translateX(-100%);transition:transform .25s;width:min(300px,85vw);overflow-y:auto}
  aside.show{transform:none}
@@ -123,7 +145,7 @@ tr:last-child td{border-bottom:0}
    <div id="v-dash">
     <h2>Dashboard</h2>
     <div class="hero">
-     <div class="avatar" aria-hidden="true"><img src="" alt=""></div>
+     <div class="avatar" aria-hidden="true"><img src="./_yfi6eQN.jpg" alt=""></div>
      <div>
       <span class="pill">&#10003; Active</span>
       <h3>ABU HASNAT BAPPY</h3>
@@ -137,24 +159,22 @@ tr:last-child td{border-bottom:0}
      </div>
     </div>
     <div class="stats">
-     <div class="stat"><small>CGPA</small><div id="s-cgpa"></div></div>
-     <div class="stat"><small>Credits earned</small><div id="s-cr"></div></div>
-     <div class="stat"><small>Semesters completed</small><div id="s-sem"></div></div>
+     <div class="stat"><small>CGPA</small><div>3.14</div></div>
+     <div class="stat"><small>Credits earned</small><div id="s-cr">87</div></div>
+     <div class="stat"><small>Semesters completed</small><div id="s-sem">9</div></div>
     </div>
     <button class="btn" style="max-width:240px;margin:0" data-view="grades">View grade report</button>
    </div>
 
    <div id="v-grades" class="hide">
     <h2>Grade Report</h2>
-    <div class="bar">
-     <div><label for="semsel" style="margin-top:0">Semester</label><select id="semsel"></select></div>
+    <div class="paper">
+     <div class="ptitle">Course Offer<br>Semester: Summer-2026<br>Department of Software Engineering<br><span>Daffodil International University</span></div>
+     <table class="sheet">
+      <thead><tr><th>Batch</th><th>CREDIT</th><th>CODE</th><th>COURSE NAME</th><th>GRADE</th></tr></thead>
+      <tbody id="rows"></tbody>
+     </table>
     </div>
-    <div class="tw"><table>
-     <thead><tr><th>Code</th><th>Course</th><th class="n">Credits</th><th>Grade</th><th class="n">Points</th></tr></thead>
-     <tbody id="rows"></tbody>
-    </table>
-    <div class="tfoot"><div id="t-sgpa"></div><div id="t-cgpa"></div></div></div>
-    <p class="scale">Scale: A+ 4.00, A 3.75, A- 3.50, B+ 3.25, B 3.00, B- 2.75, C+ 2.50, C 2.25, D 2.00, F 0.00</p>
    </div>
 
    <div id="v-dummy" class="hide">
@@ -215,18 +235,19 @@ $("s-cgpa").textContent=gp(all).toFixed(2);
 $("s-cr").textContent=all.filter(function(x){return x[3]!=="F"}).reduce(function(a,x){return a+x[2]},0);
 $("s-sem").textContent=DATA.length;
 
-// grades
-var sel=$("semsel");
-DATA.forEach(function(d,i){var o=document.createElement("option");o.value=i;o.textContent=d.sem;sel.appendChild(o)});
-sel.value=DATA.length-1;
-function render(){
- var i=+sel.value,d=DATA[i];
- $("rows").innerHTML=d.c.map(function(x){
-  return "<tr><td>"+x[0]+"</td><td>"+x[1]+"</td><td class='n'>"+x[2]+"</td><td><span class='"+cls(x[3])+"'>"+x[3]+"</span></td><td class='n'>"+PTS[x[3]].toFixed(2)+"</td></tr>"}).join("");
- $("t-sgpa").textContent="Semester GPA: "+gp(d.c).toFixed(2);
- $("t-cgpa").textContent="CGPA up to this semester: "+cum(i).toFixed(2);
-}
-sel.onchange=render;render();
+// grades (copy of course sheet)
+var SHEET=[
+ ["B-48","13",[[3,"SE 111","Computer Fundamentals","A"],[1,"SE 112","Computer Fundamentals Lab","A+"],[3,"SE 113","Introduction to Software Engineering","A-"],[3,"ENG 114/ ENG 101","English Reading, Writing Skills & Public Speaking/ English I","B+"],[3,"GE 314/ BNS 101","Bangladesh Studies","A"]]],
+ ["B-47","13",[[3,"MAT 124/ MAT 101","Math-I: Calculus & Geometry/ Mathematics I","B+"],[3,"SE 121","Structured Programming","A+"],[1,"SE 122","Structured Programming Lab","A+"],[3,"PHY 125/ PHY 101","Physics: Mechanics, Electromagnetism & Waves/ Physics I","B"],[3,"SE 212","Software Requirement Specifications & Analysis","A"]]],
+ ["B-46","13",[[3,"SE 213","Digital Electronics & Logic Design","A-"],[3,"SE 123","Discrete Mathematics","B+"],[3,"MAT 134/ MAT 102","Math-II: Linear Algebra & Fourier Analysis/ Mathematics II","B"],[3,"SE 131","Data Structure","A"],[1,"SE 132","Data Structure Lab","A+"]]],
+ ["B-45","13",[[3,"SE 133","Software Development Capstone Project","A"],[3,"SE223","Database Systems","A-"],[1,"SE224","Database Systems Lab","A+"],[3,"SE 222","Computer Architecture","B+"],[3,"GE 115/ AOL 101","Art of Living","A"]]],
+ ["B-44","14",[[3,"GE235","Principles of Accounting, Business & Economics","B"],[3,"SE214","Algorithms Design & Analysis","B+"],[1,"SE215","Algorithms Design & Analysis Lab","A"],[3,"SE 216","Object Oriented Programming","A"],[1,"SE 217","Object Oriented Programming Lab","A+"],[3,"SE 411","Software Project Management & Documentation","A-"]]],
+ ["B-43","14",[[3,"SE 235","Desktop & Web Programming","A"],[1,"SE 236","Desktop & Web Programming Lab","A+"],[3,"SE232","Operating System & System Programming","B+"],[1,"SE233","Operating System & System Programming Lab","A"],[3,"SE 231","System Analysis & Design Capstone Project","A-"]]],
+ ["B-42","14",[[3,"SE 234","Theory of Computing","A"],[3,"SE 312","Software Quality Assurance & Testing","A+"],[1,"SE 313","Software Quality Assurance & Testing Lab","A"],[3,"SE 532","Introduction to Robotics","B+"],[3,"SE 321","Software Engineering Web Application","A"],[1,"SE 322","Software Engineering Web Application Lab","A+"],[3,"SE 323","Software Architecture & Design","A-"]]]
+];
+$("rows").innerHTML=SHEET.map(function(b){
+ return b[2].map(function(c,i){
+  return "<tr>"+(i?"":"<td class='b' rowspan='"+b[2].length+"'>"+b[0]+"<br>"+b[1]+"</td>")+"<td>"+c[0]+"</td><td>"+c[1]+"</td><td class='nm'>"+c[2]+"</td><td><b>"+c[3]+"</b></td></tr>"}).join("")}).join("");
 </script>
 </body>
 </html>
