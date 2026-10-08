@@ -90,6 +90,12 @@ table.sheet{min-width:680px;border:2px solid #000}
 .sheet th{background:#00e5ff;color:#000;font-weight:700}
 .sheet td.b{font-weight:400;line-height:1.2}
 .sheet td.nm{padding:3px 6px}
+/* semester picker */
+.pick{margin-bottom:16px}
+.pick label{font-size:15px;font-weight:400;margin:0 0 10px}
+.pick select{appearance:none;-webkit-appearance:none;padding:14px 44px 14px 14px;background:var(--surface) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'><path d='M0 0h14L7 8z' fill='%23666'/></svg>") no-repeat right 16px center;color:var(--ink);cursor:pointer}
+.pick button{width:100%;margin-top:12px;padding:14px;border:0;border-radius:8px;background:var(--brand);color:#fff;font-weight:600;cursor:pointer}
+.nores td{text-align:center;color:#555;padding:14px}
 @media(max-width:800px){
  aside{position:fixed;inset:0 auto 0 0;z-index:20;transform:translateX(-100%);transition:transform .25s;width:min(300px,85vw);overflow-y:auto}
  aside.show{transform:none}
@@ -168,8 +174,13 @@ table.sheet{min-width:680px;border:2px solid #000}
 
    <div id="v-grades" class="hide">
     <h2>Grade Report</h2>
+    <div class="pick">
+     <label for="semSel">Select Semester</label>
+     <select id="semSel"></select>
+     <button id="semGo">Search</button>
+    </div>
     <div class="paper">
-     <div class="ptitle">Course Offer<br>Semester: Summer-2026<br>Department of Software Engineering<br><span>Daffodil International University</span></div>
+     <div class="ptitle">Course Offer<br>Semester: <span id="semName" style="font-size:inherit">All Semester</span><br>Department of Software Engineering<br><span>Daffodil International University</span></div>
      <table class="sheet">
       <thead><tr><th>Batch</th><th>CREDIT</th><th>CODE</th><th>COURSE NAME</th><th>GRADE</th></tr></thead>
       <tbody id="rows"></tbody>
@@ -293,9 +304,22 @@ var SHEET=[
  ]]
 
 ];
-$("rows").innerHTML=SHEET.map(function(b){
- return b[2].map(function(c,i){
-  return "<tr>"+(i?"":"<td class='b' rowspan='"+b[2].length+"'>"+b[0]+"<br>"+b[1]+"</td>")+"<td>"+c[0]+"</td><td>"+c[1]+"</td><td class='nm'>"+c[2]+"</td><td><b>"+c[3]+"</b></td></tr>"}).join("")}).join("");
+// semester dropdown: starts at 2026 Spring, plus "All Semester".
+// Each semester points at a block of SHEET (index into SHEET). Edit this map to re-assign.
+var SEMS=[
+ ["2026 Spring",5],["2025 Fall",4],["2025 Summer",3],
+ ["2025 Spring",2],["2024 Fall",1],["2024 Summer",0]
+];
+$("semSel").innerHTML="<option value='all'>All Semester</option>"+SEMS.map(function(x){return "<option value='"+x[1]+"'>"+x[0]+"</option>"}).join("");
+function renderSheet(){
+ var v=$("semSel").value,blocks=v==="all"?SHEET:[SHEET[+v]].filter(Boolean);
+ $("semName").textContent=$("semSel").options[$("semSel").selectedIndex].text;
+ $("rows").innerHTML=blocks.length?blocks.map(function(b){
+  return b[2].map(function(c,i){
+   return "<tr>"+(i?"":"<td class='b' rowspan='"+b[2].length+"'>"+b[0]+"<br>"+b[1]+"</td>")+"<td>"+c[0]+"</td><td>"+c[1]+"</td><td class='nm'>"+c[2]+"</td><td><b>"+c[3]+"</b></td></tr>"}).join("")}).join(""):"<tr class='nores'><td colspan='5'>No result found</td></tr>";
+}
+$("semSel").onchange=$("semGo").onclick=renderSheet;
+renderSheet();
 </script>
 </body>
 </html>
